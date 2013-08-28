@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using BdzWebsiteUtilities;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,16 @@ namespace BdzWebsiteUtilities
 {
     public static class BDZWebsiteUtilities
     {
-        private const string REQUEST_TEMPLATE = "from_station={0}&to_station={1}&via_station=&date={2}&dep_arr=1&time_from={3}&time_to={4}&all_cats=checked&cardId=30&class=0&sort_by=0";
+        private const string REQUEST_ROUTES_TEMPLATE = "from_station={0}&to_station={1}&via_station=&date={2}&dep_arr=1&time_from={3}&time_to={4}&all_cats=checked&cardId=30&class=0&sort_by=0";
+
+        private const string REQUEST_TRAIN_TEMPLATE = "http://razpisanie.bdz.bg/SearchServlet?action=listTrainStops&trainnum={0}&date={1}";
 
         public static List<List<RouteDTO>> GetRoutes(string fromStation, string toStation, string date, string startTime, string endTime)
         {
             string result = "";
 
             var httpClient = new HttpClient();
-            string requestString = String.Format(REQUEST_TEMPLATE, fromStation, toStation, date, startTime, endTime);
+            string requestString = String.Format(REQUEST_ROUTES_TEMPLATE, fromStation, toStation, date, startTime, endTime);
 
             //httpClient.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
             var content = new StringContent(requestString);
@@ -26,10 +29,10 @@ namespace BdzWebsiteUtilities
             var message = httpClient.PostAsync("http://razpisanie.bdz.bg/SearchServlet?action=listOptions", content).Result;
             result = message.Content.ReadAsStringAsync().Result;
 
-            return ParseHTML(result);
+            return ParseRoutesHTML(result);
         }
 
-        private static List<List<RouteDTO>> ParseHTML(string result)
+        private static List<List<RouteDTO>> ParseRoutesHTML(string result)
         {
             List<List<RouteDTO>> routes = new List<List<RouteDTO>>();
             HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
@@ -49,7 +52,7 @@ namespace BdzWebsiteUtilities
                         List<RouteDTO> currentRoutes = new List<RouteDTO>();
                         foreach (var dataRow in dataRows)
                         {
-                            currentRoutes.Add(ParseDataRow(dataRow));
+                            currentRoutes.Add(ParseRouteDataRow(dataRow));
                             //fullRoute+=ParseDataRow(dataRow)+" then ";
                         }
                         routes.Add(currentRoutes);
@@ -64,7 +67,7 @@ namespace BdzWebsiteUtilities
             return routes;
         }
 
-        private static RouteDTO ParseDataRow(HtmlNode dataRow)
+        private static RouteDTO ParseRouteDataRow(HtmlNode dataRow)
         {
             RouteDTO route = new RouteDTO();
             string data = "";
@@ -111,6 +114,53 @@ namespace BdzWebsiteUtilities
             //data += departs + "-" + arrives;
 
             return route;
+        }
+
+        public static TrainDTO GetTrain(string trainNumber, string date)
+        {
+            string result = "";
+
+            var httpClient = new HttpClient();
+            string requestString = String.Format(REQUEST_TRAIN_TEMPLATE, trainNumber, date);
+
+            //httpClient.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
+            var message = httpClient.GetByteArrayAsync(requestString).Result;
+            var responseString = Encoding.UTF8.GetString(message, 0, message.Length - 1);
+            return ParseTrainHTML(responseString); ;
+        }
+
+        private static TrainDTO ParseTrainHTML(string html)
+        {
+            HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
+            htmlDocument.LoadHtml(html);
+            HtmlNode infoTable = htmlDocument.DocumentNode.SelectSingleNode("html/body/table/tr[not (@align)]/td/table");
+
+            HtmlNodeCollection infoRows = infoTable.SelectNodes("tr");
+            infoRows.RemoveAt(0);
+            infoRows.RemoveAt(0);
+            infoRows.RemoveAt(infoRows.Count - 2);
+
+            HtmlNode TrainOptions = infoRows[infoRows.Count - 1];
+            infoRows.RemoveAt(infoRows.Count - 1);
+            TrainDTO train = new TrainDTO();
+            train.stops = new List<TrainSimpleStopDTO>();
+            train.options = new List<string>();
+
+            foreach (var stopRow in infoRows)
+            {
+                string[] innerText = stopRow.InnerText.Trim().Split(new char[]{' ', '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+                train.stops.Add(new TrainSimpleStopDTO(){ station=innerText[0], arrives=innerText[1], departs=innerText[2]});
+            }
+            var a = TrainOptions.SelectSingleNode("td");
+
+
+            foreach (var image in TrainOptions.SelectSingleNode("td").SelectSingleNode("span").SelectNodes("img"))
+            {
+                train.options.Add(image.Attributes["title"].Value);
+            }
+
+
+            return train;
         }
     }
 }

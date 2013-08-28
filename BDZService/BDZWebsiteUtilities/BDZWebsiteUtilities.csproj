@@ -48,6 +48,8 @@
     <Compile Include="BDZWebsiteUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteDTO.cs" />
+    <Compile Include="StationDTO.cs" />
+    <Compile Include="StationEntryDTO.cs" />
     <Compile Include="TrainSimpleStopDTO.cs" />
     <Compile Include="TrainDTO.cs" />
   </ItemGroup>

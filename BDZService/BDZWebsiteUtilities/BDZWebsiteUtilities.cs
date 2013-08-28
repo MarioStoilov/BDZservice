@@ -16,6 +16,8 @@ namespace BdzWebsiteUtilities
 
         private const string REQUEST_TRAIN_TEMPLATE = "http://razpisanie.bdz.bg/SearchServlet?action=listTrainStops&trainnum={0}&date={1}";
 
+        private const string REQUEST_STATION_TEMPLATE = "http://razpisanie.bdz.bg/SearchServlet?action=listStation&station={0}&date={1}";
+
         public static List<List<RouteDTO>> GetRoutes(string fromStation, string toStation, string date, string startTime, string endTime)
         {
             string result = "";
@@ -148,10 +150,9 @@ namespace BdzWebsiteUtilities
 
             foreach (var stopRow in infoRows)
             {
-                string[] innerText = stopRow.InnerText.Trim().Split(new char[]{' ', '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-                train.stops.Add(new TrainSimpleStopDTO(){ station=innerText[0], arrives=innerText[1], departs=innerText[2]});
+                HtmlNodeCollection columns = stopRow.SelectNodes("td");
+                train.stops.Add(new TrainSimpleStopDTO() { station = columns[0].InnerText.Trim(), arrives = columns[1].InnerText.Trim(), departs = columns[2].InnerText.Trim() });
             }
-            var a = TrainOptions.SelectSingleNode("td");
 
 
             foreach (var image in TrainOptions.SelectSingleNode("td").SelectSingleNode("span").SelectNodes("img"))
@@ -162,5 +163,64 @@ namespace BdzWebsiteUtilities
 
             return train;
         }
+
+
+        public static StationDTO GetStation(string station, string date)
+        {
+            string result = "";
+
+            var httpClient = new HttpClient();
+            string requestString = String.Format(REQUEST_STATION_TEMPLATE, station, date);
+
+            //httpClient.DefaultRequestHeaders.Add("Content-Type", "application/x-www-form-urlencoded");
+            var message = httpClient.GetByteArrayAsync(requestString).Result;
+            var responseString = Encoding.UTF8.GetString(message, 0, message.Length - 1);
+
+            return ParseStationHTML(responseString);
+        }
+
+        private static StationDTO ParseStationHTML(string html)
+        {
+            StationDTO station = new StationDTO();
+            station.arrives = new List<StationEntryDTO>();
+            station.departs = new List<StationEntryDTO>();
+
+            HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
+            htmlDocument.LoadHtml(html);
+            HtmlNode infoTable = htmlDocument.DocumentNode.SelectSingleNode("html/body/table/tr[2]/td/table");
+
+            HtmlNodeCollection rows = infoTable.SelectNodes("tr");
+            rows.RemoveAt(0);
+            rows.RemoveAt(0);
+
+            bool departing = true;
+
+            foreach (var row in rows)
+            {
+                if (row.Attributes["bgcolor"].Value.ToLower()!="#f5f8fa")
+                {
+                    departing = false;
+                    continue;
+                }
+
+                StationEntryDTO entry = new StationEntryDTO();
+                HtmlNodeCollection columns = row.SelectNodes("td");
+                entry.station = columns[0].InnerText.Trim();
+                entry.train = columns[1].InnerText.Trim(); ;
+                entry.time = columns[2].InnerText.Trim(); ;
+
+                if (departing)
+                {
+                    station.departs.Add(entry);
+                }
+                else
+                {
+                    station.arrives.Add(entry);
+                }
+            }
+
+            return station;
+        }
+
     }
 }

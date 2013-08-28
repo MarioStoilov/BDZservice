@@ -79,6 +79,14 @@ namespace BdzWebsiteUtilities
 
             //parse column 2
             HtmlNode secondColumn = dataColumns[1];
+            HtmlNode link = secondColumn.SelectSingleNode("a");
+            string href = link.Attributes["href"].Value;
+            string hrefLeftCut = href.Substring(href.IndexOf("trainnum=")+"trainnum=".Length);
+
+            string trainNumber = hrefLeftCut.Substring(0, hrefLeftCut.IndexOf('&'));
+            route.trainNumber = trainNumber;
+
+            //parse train name
             string[] trainDetails = secondColumn.SelectSingleNode("a").InnerText.Trim().Split(new char[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             StringBuilder trainBuilder = new StringBuilder();
             trainBuilder.Append(trainDetails[0] + " ");

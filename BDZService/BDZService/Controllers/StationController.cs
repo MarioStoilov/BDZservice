@@ -13,7 +13,7 @@ namespace BDZService.Controllers
         // GET api/station
         public StationDTO Get(string station, string date)
         {
-            return BdzWebsiteUtilities.BDZWebsiteUtilities.GetStation(station, date);
+            return BdzWebsiteUtilities.BDZWebsiteUtilities.GetStation(station.ToUpper(), date);
         }
     }
 }

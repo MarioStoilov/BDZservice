@@ -105,9 +105,13 @@ namespace BdzWebsiteUtilities
             //parse column 3
             HtmlNode thirdColumn = dataColumns[2];
             route.options = new List<string>();
-            foreach (var image in thirdColumn.SelectNodes("img"))
+            HtmlNodeCollection images = thirdColumn.SelectNodes("img");
+            if (images!=null)
             {
-                route.options.Add(image.Attributes["title"].Value);
+                foreach (var image in images)
+                {
+                    route.options.Add(image.Attributes["title"].Value);
+                }
             }
 
             route.departs = dataColumns[3].InnerText;

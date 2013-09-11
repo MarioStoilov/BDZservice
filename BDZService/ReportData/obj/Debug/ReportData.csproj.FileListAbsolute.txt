@@ -1,0 +1,8 @@
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\bin\Debug\ReportData.dll.config
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\bin\Debug\ReportData.dll
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\bin\Debug\ReportData.pdb
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\bin\Debug\EntityFramework.dll
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\bin\Debug\EntityFramework.xml
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\obj\Debug\ReportData.csprojResolveAssemblyReference.cache
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\obj\Debug\ReportData.dll
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\ReportData\obj\Debug\ReportData.pdb

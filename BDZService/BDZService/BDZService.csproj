@@ -163,7 +163,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\PriceController.cs" />
     <Compile Include="Controllers\PrivacyPolicyController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RouteController.cs" />
     <Compile Include="Controllers\StationController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
@@ -297,6 +300,10 @@
     <ProjectReference Include="..\BDZWebsiteUtilities\BDZWebsiteUtilities.csproj">
       <Project>{83903f0b-8eba-49f2-9549-d540462b2c56}</Project>
       <Name>BDZWebsiteUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportData\ReportData.csproj">
+      <Project>{d27de8c7-d769-4f54-9eee-cf1097e7a449}</Project>
+      <Name>ReportData</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -148,3 +148,5 @@ C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\bin\zh-Hant\Sys
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\obj\Debug\BDZService.csprojResolveAssemblyReference.cache
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\obj\Debug\BDZService.dll
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\obj\Debug\BDZService.pdb
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\bin\ReportData.dll
+C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZService\bin\ReportData.pdb

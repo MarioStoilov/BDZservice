@@ -12,8 +12,8 @@ namespace BDZService.Controllers
         // GET api/image
         public string Post([FromBody]string mapHref)
         {
-            return mapHref;
-            //return BdzWebsiteUtilities.BDZWebsiteUtilities.ParseMap(mapHref);
+            //return mapHref;
+            return BdzWebsiteUtilities.BDZWebsiteUtilities.ParseMap(mapHref);
         }
     }
 }

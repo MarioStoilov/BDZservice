@@ -14,3 +14,11 @@ C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZWebsiteUtilities\bin\De
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.csprojResolveAssemblyReference.cache
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.dll
 C:\Users\Mario\Documents\GitHub\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.pdb
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\bin\Debug\BDZWebsiteUtilities.dll
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\bin\Debug\BDZWebsiteUtilities.pdb
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\bin\Debug\HtmlAgilityPack.dll
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\bin\Debug\HtmlAgilityPack.pdb
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\bin\Debug\HtmlAgilityPack.xml
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.csprojResolveAssemblyReference.cache
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.dll
+D:\Projects\VisualStudio\BDZservice\BDZService\BDZWebsiteUtilities\obj\Debug\BDZWebsiteUtilities.pdb
